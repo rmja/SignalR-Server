@@ -212,6 +212,11 @@ namespace Microsoft.AspNet.SignalR.Transports
 
         protected override async Task ProcessSendRequest()
         {
+            if (Context.Request.ContentType == null)
+            {
+                Context.Request.ContentType = "application/x-www-form-urlencoded";
+            }
+
             IReadableStringCollection form = await Context.Request.ReadFormAsync().PreserveCulture();
             string data = (string)form["data"] ?? Context.Request.Query["data"];
 
